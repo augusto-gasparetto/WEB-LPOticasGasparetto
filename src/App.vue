@@ -7,9 +7,9 @@ const WHATSAPP_NUMBER = '554933232399' // DDI + DDD + número, só dígitos
 const MENSAGEM_BASE = 'Vim pela campanha e gostaria de mais informações.'
 
 // Imagens (deixe '' para mostrar o espaço reservado)
-const CAMPANHA_IMG = '/campanhas/2026-2.jpeg'
-const LOGO_IMG = '/logo.png'
-const LOJA_IMG = '/loja.webp'
+const CAMPANHA_IMG = 'campanhas/2026-2.jpeg'
+const LOGO_IMG = 'public/logo.png'
+const LOJA_IMG = 'public/loja.webp'
 
 // EmailJS (https://dashboard.emailjs.com)
 const EMAILJS_SERVICE_ID = 'service_alu443z'
