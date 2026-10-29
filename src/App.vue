@@ -7,9 +7,10 @@ const WHATSAPP_NUMBER = '554933232399' // DDI + DDD + número, só dígitos
 const MENSAGEM_BASE = 'Vim pela campanha e gostaria de mais informações.'
 
 // Imagens (deixe '' para mostrar o espaço reservado)
-const CAMPANHA_IMG = 'campanha-2026-2.jpeg'
-const LOGO_IMG = 'logo.png'
-const LOJA_IMG = 'loja.webp'
+// Arquivos da pasta public/ são servidos a partir da raiz, sem "./public"
+const CAMPANHA_IMG = '/campanha-2026-2.jpeg' // public/campanha-2026-2.jpeg
+const LOGO_IMG = '/logo.png' // public/logo.png
+const LOJA_IMG = '/loja.webp' // public/loja.webp
 
 // EmailJS (https://dashboard.emailjs.com)
 const EMAILJS_SERVICE_ID = 'service_alu443z'
@@ -55,7 +56,7 @@ function mascararTelefone(e) {
 
 // Nome + telefone vão para o e-mail da empresa
 function enviarEmail() {
-  if (EMAILJS_SERVICE_ID.startsWith('SEU_')) {
+  if (EMAILJS_SERVICE_ID.startsWith('SEU_') || /^x+$/i.test(EMAILJS_SERVICE_ID)) {
     console.warn('EmailJS não configurado: preencha as constantes no topo do arquivo.')
     return Promise.resolve()
   }
@@ -76,6 +77,10 @@ function enviarEmail() {
 function enviar() {
   tentouEnviar.value = true
   if (!nomeValido.value || !telefoneValido.value) return
+
+  // Meta Pixel: conta o lead (eventID serve para evitar duplicidade com a API de Conversões)
+  const eventId = window.crypto?.randomUUID?.() ?? String(Date.now())
+  if (window.fbq) window.fbq('track', 'Lead', { content_name: 'Formulário LP' }, { eventID: eventId })
 
   // Abre o WhatsApp na hora (evita bloqueio de pop-up) e envia o e-mail em paralelo.
   // No WhatsApp vai só o nome; o telefone fica apenas no e-mail da empresa.
@@ -128,8 +133,8 @@ const passos = [
 
     <!-- ================= HERO ================= -->
     <header id="contato" class="relative scroll-mt-20 overflow-hidden bg-[#0a173e] text-white">
-      <div class="pointer-events-none absolute -right-44 -top-44 h-[38rem] w-[38rem] rounded-full border-[3.5rem] border-[#ffca00]/10" aria-hidden="true"></div>
-      <div class="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#ffca00]/[0.06]" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -right-44 -top-44 size-152 rounded-full border-[3.5rem] border-[#ffca00]/10" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -bottom-32 -left-32 size-80 rounded-full bg-[#ffca00]/6" aria-hidden="true"></div>
 
       <div class="relative mx-auto max-w-6xl px-5 pb-16 pt-10 md:pb-24 md:pt-14">
         <div class="grid items-center gap-10 md:grid-cols-2 md:gap-14">
@@ -181,9 +186,9 @@ const passos = [
 
               <button
                 type="submit"
-                class="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-[#ffca00] px-5 py-4 font-semibold text-[#0a173e] transition hover:brightness-95 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0a173e]"
+                class="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-[#ffca00] px-5 py-4 font-semibold text-[#0a173e] transition hover:brightness-95 active:scale-99 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0a173e]"
               >
-                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
                   <path d="M12.04 2a9.9 9.9 0 0 0-8.43 15.1L2 22l5-1.58A9.9 9.9 0 1 0 12.04 2Zm5.8 14.04c-.25.7-1.45 1.34-2 1.4-.51.06-1.15.09-1.86-.12a17 17 0 0 1-1.69-.62c-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05s.76-2.16 1.03-2.46c.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.6.84 2.06.92 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.05 1.13 1 2.09 1.31 2.39 1.46.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.07.12.07.72-.18 1.42Z" />
                 </svg>
                 Chamar no WhatsApp
@@ -207,8 +212,8 @@ const passos = [
             >
               <!-- Proporção livre: a imagem aparece inteira, sem cortes -->
               <img v-if="CAMPANHA_IMG" :src="CAMPANHA_IMG" alt="Campanha vigente das Óticas Gasparetto" class="block h-auto w-full" />
-              <div v-else class="flex h-full w-full flex-col items-center justify-center gap-2 border-2 border-dashed border-[#ffca00]/50 p-6 text-center">
-                <svg viewBox="0 0 24 24" class="h-10 w-10 text-[#ffca00]" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <div v-else class="flex size-full flex-col items-center justify-center gap-2 border-2 border-dashed border-[#ffca00]/50 p-6 text-center">
+                <svg viewBox="0 0 24 24" class="size-10 text-[#ffca00]" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                   <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="1.8" /><path d="m21 16-5-5-8 8" />
                 </svg>
                 <p class="font-medium">Espaço da campanha</p>
@@ -224,9 +229,9 @@ const passos = [
     <section id="sobre" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-16 md:py-24">
       <div class="grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div class="relative">
-          <div class="absolute -bottom-4 -left-4 h-full w-full rounded-2xl bg-[#ffca00]" aria-hidden="true"></div>
-          <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#0a173e]/[0.06]">
-            <img v-if="LOJA_IMG" :src="LOJA_IMG" alt="Fachada da Óticas Gasparetto" class="h-full w-full object-cover" />
+          <div class="absolute -bottom-4 -left-4 size-full rounded-2xl bg-[#ffca00]" aria-hidden="true"></div>
+          <div class="relative aspect-4/5 overflow-hidden rounded-2xl bg-[#0a173e]/6">
+            <img v-if="LOJA_IMG" :src="LOJA_IMG" alt="Fachada da Óticas Gasparetto" class="size-full object-cover" />
             <div v-else class="flex h-full flex-col items-center justify-center gap-1 p-6 text-center text-[#0a173e]/60">
               <p class="font-medium text-[#0a173e]">Foto da loja ou da equipe</p>
               <p class="text-sm">Defina <code>LOJA_IMG</code> no topo do arquivo.</p>
@@ -251,8 +256,8 @@ const passos = [
 
           <ul class="mt-8 space-y-5">
             <li v-for="p in pilares" :key="p.titulo" class="flex gap-4">
-              <span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ffca00]" aria-hidden="true">
-                <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="#0a173e" stroke-width="3"><path d="m5 12 5 5 9-10" /></svg>
+              <span class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full bg-[#ffca00]" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="size-3.5" fill="none" stroke="#0a173e" stroke-width="3"><path d="m5 12 5 5 9-10" /></svg>
               </span>
               <div>
                 <h3 class="font-semibold">{{ p.titulo }}</h3>
@@ -265,12 +270,12 @@ const passos = [
     </section>
 
     <!-- ================= COMO FUNCIONA ================= -->
-    <section class="bg-[#0a173e]/[0.04]">
+    <section class="bg-[#0a173e]/4">
       <div class="mx-auto max-w-6xl px-5 py-14 md:py-16">
         <h2 class="text-2xl font-semibold sm:text-3xl">Como funciona</h2>
         <ol class="mt-8 grid gap-6 md:grid-cols-3">
           <li v-for="(p, i) in passos" :key="p" class="flex items-start gap-4">
-            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ffca00] text-lg font-semibold">{{ i + 1 }}</span>
+            <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#ffca00] text-lg font-semibold">{{ i + 1 }}</span>
             <p class="pt-1.5 text-lg">{{ p }}</p>
           </li>
         </ol>
@@ -308,20 +313,20 @@ const passos = [
             </div>
           </div>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
-            <a :href="mapaRota" target="_blank" rel="noopener" class="inline-flex flex-1 items-center justify-center rounded-lg bg-[#ffca00] px-5 py-3 font-semibold text-[#0a173e] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            <a :href="mapaRota" target="_blank" rel="noopener" class="inline-flex flex-1 items-center justify-center rounded-lg bg-[#ffca00] px-5 py-3 font-semibold text-[#0a173e] hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
               Como chegar
             </a>
-            <a :href="whatsappUrl" target="_blank" rel="noopener" class="inline-flex flex-1 items-center justify-center rounded-lg border border-white/30 px-5 py-3 font-semibold hover:border-[#ffca00] hover:text-[#ffca00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            <a :href="whatsappUrl" target="_blank" rel="noopener" class="inline-flex flex-1 items-center justify-center rounded-lg border border-white/30 px-5 py-3 font-semibold hover:border-[#ffca00] hover:text-[#ffca00] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
               Falar no WhatsApp
             </a>
           </div>
         </div>
 
-        <div class="min-h-[22rem] overflow-hidden rounded-2xl ring-1 ring-[#0a173e]/15">
+        <div class="min-h-88 overflow-hidden rounded-2xl ring-1 ring-[#0a173e]/15">
           <iframe
             :src="mapaEmbed"
             title="Mapa com a localização das Óticas Gasparetto"
-            class="h-full min-h-[22rem] w-full border-0"
+            class="size-full min-h-88 border-0"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
@@ -335,7 +340,7 @@ const passos = [
         <h2 class="max-w-xl text-2xl font-semibold leading-snug sm:text-3xl">
           Ficou com alguma dúvida? Mande um oi ou passe aqui para um cafezinho.
         </h2>
-        <a href="#contato" class="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#0a173e] px-6 py-4 font-semibold text-white hover:bg-[#13245a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0a173e]">
+        <a href="#contato" class="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#0a173e] px-6 py-4 font-semibold text-white hover:bg-[#13245a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0a173e]">
           Quero falar com a equipe
         </a>
       </div>
@@ -352,9 +357,9 @@ const passos = [
     <a
       href="#contato"
       aria-label="Ir para o formulário de contato"
-      class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#ffca00] text-[#0a173e] shadow-lg shadow-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:hidden"
+      class="fixed bottom-5 right-5 z-50 flex size-14 items-center justify-center rounded-full bg-[#ffca00] text-[#0a173e] shadow-lg shadow-black/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:hidden"
     >
-      <svg viewBox="0 0 24 24" class="h-7 w-7" fill="currentColor" aria-hidden="true">
+      <svg viewBox="0 0 24 24" class="size-7" fill="currentColor" aria-hidden="true">
         <path d="M12.04 2a9.9 9.9 0 0 0-8.43 15.1L2 22l5-1.58A9.9 9.9 0 1 0 12.04 2Zm5.8 14.04c-.25.7-1.45 1.34-2 1.4-.51.06-1.15.09-1.86-.12a17 17 0 0 1-1.69-.62c-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05s.76-2.16 1.03-2.46c.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.6.84 2.06.92 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.05 1.13 1 2.09 1.31 2.39 1.46.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.07.12.07.72-.18 1.42Z" />
       </svg>
     </a>
@@ -362,8 +367,6 @@ const passos = [
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap');
-
 html { scroll-behavior: smooth; }
 .font-sans { font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif; }
 @media (prefers-reduced-motion: reduce) {

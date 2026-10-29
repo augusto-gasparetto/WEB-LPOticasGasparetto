@@ -10,18 +10,17 @@
       name="description"
       content="Óticas Gasparetto, em Chapecó desde 1989. Veja a campanha do momento, fale com a equipe pelo WhatsApp ou venha tomar um cafézinho com a gente no Centro."
     />
-    <link rel="canonical" href="https://service-oticasgasparetto.com.br" />
+    <link rel="canonical" href="https://service-oticasgasparetto.com.br/" />
     <meta name="robots" content="index, follow" />
 
     <!-- ============ Aparência no navegador ============ -->
     <meta name="theme-color" content="#0a173e" />
     <meta name="author" content="Óticas Gasparetto" />
 
-    <!-- ============ Ícones (coloque os arquivos em /public) ============ -->
-    <link rel="icon" href="public/favicon.ico" sizes="any" />
-    <!-- Opcionais: descomente se criar os arquivos -->
-    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32.png" />
-    <link rel="apple-touch-icon" href="public/favicon-180.png" />
+    <!-- ============ Ícones (arquivos em /public, referenciados a partir da raiz) ============ -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
 
     <!-- ============ Prévia do link (WhatsApp, Facebook, Instagram, LinkedIn) ============ -->
     <meta property="og:type" content="website" />
@@ -32,7 +31,7 @@
       property="og:description"
       content="Veja a campanha do momento e fale com a gente no WhatsApp. Ótica no Centro de Chapecó desde 1989."
     />
-    <meta property="og:url" content="https://service-oticasgasparetto.com.br" />
+    <meta property="og:url" content="https://service-oticasgasparetto.com.br/" />
     <!-- Imagem 1200 x 630 px em /public/og-image.png, com URL completa -->
     <meta property="og:image" content="https://service-oticasgasparetto.com.br/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -55,8 +54,8 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap"
     />
-    <!-- Carrega a imagem do logo e da campanha mais cedo -->
-    <link rel="preload" as="image" href="public/logo.png" />
+    <!-- Carrega o logo mais cedo -->
+    <link rel="preload" as="image" href="/logo.png" />
 
     <!-- ============ Dados estruturados (Google Maps / busca local) ============ -->
     <script type="application/ld+json">
@@ -64,7 +63,7 @@
         "@context": "https://schema.org",
         "@type": "Optician",
         "name": "Óticas Gasparetto",
-        "url": "https://service-oticasgasparetto.com.br",
+        "url": "https://service-oticasgasparetto.com.br/",
         "image": "https://service-oticasgasparetto.com.br/og-image.png",
         "telephone": "+554933232399",
         "foundingDate": "1989",
@@ -97,12 +96,28 @@
         ]
       }
     </script>
+
+    <!-- ============ Meta Pixel ============ -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '4588427398068773');
+      fbq('track', 'PageView');
+    </script>
   </head>
 
   <body>
     <div id="app"></div>
 
     <noscript>
+      <img height="1" width="1" style="display:none" alt=""
+        src="https://www.facebook.com/tr?id=4588427398068773&ev=PageView&noscript=1" />
       <div style="font-family: Arial, sans-serif; padding: 24px; text-align: center; color: #0a173e;">
         <p><strong>Óticas Gasparetto</strong></p>
         <p>Ative o JavaScript para ver a página, ou fale com a gente pelo telefone (49) 3323-2399.</p>
